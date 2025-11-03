@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Locations</title>
+    <!-- Make the viewport width equal to the actual device screen width, and don’t zoom out. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <style>
+        /* 100% of the screen height */
+        #map { height: 100vh; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <!-- Load Leflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- Embed JSON safely here -->
+    {{ users|json_script:"user-data" }}
+    <script>
+        // Create map
+        var map = L.map("map").setView([20, 0], 2); // world view
+
+        // Add base layer
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 18,
+            attribution: "© OpenStreetMap contributors"
+        }).addTo(map);
+
+    </script>
+
+    <script>
+        const data = JSON.parse(document.getElementById("user-data").textContent);
+
+        data.forEach(user => {
+            if (user.latitude && user.longitude) {
+                L.marker([user.latitude, user.longitude])
+                    .addTo(map)
+                    .bindPopup(`<b>${user.username}</b>`);
+            }
+        });
+    </script>
+</body>
+</html>
