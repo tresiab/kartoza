@@ -6,6 +6,10 @@
    sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE kartoza TO kartoza"
 4. python manage.py createsuperuser
     username: admin
-    email: tresiab@gmail.com
-    password: pass
+    email: admin@kartoza.com
+    password: abcd1234
+5. To add initial data,
+    python manage.py loaddata users/fixtures/initial_data.json
 5. python manage.py runserver
+6. To wipe database data but keep schemas and reset IDs
+    python manage.py flush --noinput
