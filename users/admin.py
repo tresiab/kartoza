@@ -24,6 +24,12 @@ class KartozaAdminSite(AdminSite):
     site_title = "Kartoza Admin"
     site_url = settings.LOGIN_REDIRECT_URL
 
+    def has_permission(self, request):
+        """
+        Allow access to the admin site only for active superusers.
+        """
+        return request.user.is_active and request.user.is_superuser
+
 
 admin_site = KartozaAdminSite(name="kartoza_admin")
 
