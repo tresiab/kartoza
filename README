@@ -1,6 +1,7 @@
 1. cd git/kartoza/
 2. pip install -r requirements.txt
 3. sudo -u postgres psql -c "CREATE USER kartoza WITH PASSWORD 'pass'"
+   sudo -u postgres psql -c "ALTER USER kartoza CREATEDB"
    sudo -u postgres psql -c "CREATE DATABASE kartoza OWNER kartoza"
    sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE kartoza TO kartoza"
 4. python manage.py createsuperuser
