@@ -1,15 +1,87 @@
-1. cd git/kartoza/
-2. pip install -r requirements.txt
-3. sudo -u postgres psql -c "CREATE USER kartoza WITH PASSWORD 'pass'"
-   sudo -u postgres psql -c "ALTER USER kartoza CREATEDB"
-   sudo -u postgres psql -c "CREATE DATABASE kartoza OWNER kartoza"
-   sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE kartoza TO kartoza"
-4. python manage.py createsuperuser
-    username: admin
-    email: admin@kartoza.com
-    password: abcd1234
-5. To add initial data,
-    python manage.py loaddata users/fixtures/initial_data.json
-5. python manage.py runserver
-6. To wipe database data but keep schemas and reset IDs
-    python manage.py flush --noinput
+Kartoza Project Setup
+
+This guide will help you set up and run the Kartoza project locally.
+
+---
+
+1. Checkout the repo,
+
+mkdir /tmp/kartoza/
+cd /tmp/kartoza/
+git clone git@github.com:tresiab/kartoza.git .
+
+2. Create a Python virtual environment
+
+python -m venv venv
+source venv/bin/activate
+
+3. Install dependencies
+
+pip install -r requirements.txt
+
+4. Set up PostgreSQL database
+
+sudo -u postgres psql -c "CREATE USER kartoza WITH PASSWORD 'pass';"
+sudo -u postgres psql -c "ALTER USER kartoza CREATEDB;"
+sudo -u postgres psql -c "CREATE DATABASE kartoza OWNER kartoza;"
+sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE kartoza TO kartoza;"
+
+5. Apply migrations
+
+python manage.py migrate
+
+6. Create a superuser
+
+python manage.py createsuperuser
+
+* Username: admin
+* Email: admin@kartoza.com
+* Password: mySuperSecret
+
+7. Load initial data
+
+python manage.py loaddata users/fixtures/initial_data.json
+NOTE: all regular user passwords are "mySecret!"
+
+8. Run the development server
+
+python manage.py runserver
+
+9. Access the application
+
+* Login page: [http://127.0.0.1/](http://127.0.0.1/)
+
+  Super user:
+  * Username: admin
+  * Password: mySuperSecret
+
+  Regular user:
+  * Username: luna_moon
+  * Password: mySecret!
+
+* Admin site: [http://127.0.0.1/admin/](http://127.0.0.1/admin/)
+
+  * Username: admin
+  * Password: mySuperSecret
+
+10. To view user login activity:
+
+* Open the Admin Dashboard: http://127.0.0.1/admin/
+    Username: admin
+    Password: mySuperSecret
+
+* In the sidebar, navigate to Log entries.
+
+* Use the Filter menu on the right to select "Login" or "Logout" events.
+
+11. Run tests
+
+python manage.py test
+
+12. Reset database data (keep schema and reset IDs)
+
+python manage.py flush --noinput
+
+---
+
+This completes the local setup for Kartoza. You can now start developing or testing the project.
